@@ -64,7 +64,7 @@ public class FlightService(Db db)
         await conn.OpenAsync();
         await EnsureSeatsAsync(conn, null, flightKey);
 
-        var cmd = new MySqlCommand("SELECT seat_number, is_available FROM seat_inventory WHERE flight_key=@flightKey ORDER BY row_number, seat_letter;", conn);
+        var cmd = new MySqlCommand("SELECT seat_number, is_available FROM seat_inventory WHERE flight_key=@flightKey ORDER BY `row_number`, seat_letter;", conn);
         cmd.Parameters.AddWithValue("@flightKey", flightKey);
         var seats = new List<SeatDto>();
         await using var reader = await cmd.ExecuteReaderAsync();
@@ -88,7 +88,7 @@ public class FlightService(Db db)
             foreach (var letter in letters)
             {
                 var seat = $"{row}{letter}";
-                var insert = new MySqlCommand(@"INSERT INTO seat_inventory(flight_key, seat_number, row_number, seat_letter, is_available)
+                var insert = new MySqlCommand(@"INSERT INTO seat_inventory(flight_key, seat_number, `row_number`, seat_letter, is_available)
                     VALUES(@flightKey, @seat, @row, @letter, TRUE);", conn, tx);
                 insert.Parameters.AddWithValue("@flightKey", flightKey);
                 insert.Parameters.AddWithValue("@seat", seat);
