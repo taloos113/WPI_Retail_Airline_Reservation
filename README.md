@@ -36,6 +36,7 @@ Import the SQL files in this order:
 1. flightdata_deltas.sql
 2. flightdata_southwests.sql
 3. init_db.sql
+4.schema_update.sql
 ```
 
 If the project includes separate table creation scripts for reservations or seat inventory, run them after importing the flight data.
